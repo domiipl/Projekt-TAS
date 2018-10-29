@@ -65,5 +65,21 @@ namespace ProjektTAS.Classes
             }
             return salt;
         }
+        /// <summary>
+        /// Wyselectuj id użytkownika bazując na tokenie
+        /// </summary>
+        /// <param name="login">token</param>
+        /// <returns>id użytkownika</returns>
+        internal static int? GetUserId(string token)
+        {
+            int? id = null;
+            MySQLObject mySQL = new MySQLObject();
+            var data = mySQL.Select("select `id_uzytkownika` from `tokeny_logowania` where `token` = '" + token + "'");
+            if (data.Rows.Count > 0)
+            {
+                id = Convert.ToInt32(data.Rows[0]["id_uzytkownika"]);
+            }
+            return id;
+        }
     }
 }

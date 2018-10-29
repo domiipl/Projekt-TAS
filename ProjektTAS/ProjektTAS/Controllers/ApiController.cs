@@ -4,8 +4,8 @@ using System;
 
 namespace ProjektTAS.Controllers
 {
+    [Produces("application/json")]
     [Route("rest/v1/[controller]/[action]")]
-    [ApiController]
     public class ApiController : ControllerBase
     {
         [HttpGet]
@@ -30,9 +30,9 @@ namespace ProjektTAS.Controllers
                     mySQL.Insert($@"INSERT INTO `projekt_mysql`.`uzytkownicy`(`login`,`haslo`,`email`,`token`) VALUES('{user.Login}','{user.Password}','{user.Email}','{user.Token}')");
                     return StatusCode(200, user.Token);
                 }
-                catch(Exception exc)
+                catch (Exception exc)
                 {
-                    if(exc is MySql.Data.MySqlClient.MySqlException)
+                    if (exc is MySql.Data.MySqlClient.MySqlException)
                     {
                         return StatusCode(400, "Login or email is already taken, try another one");
                     }

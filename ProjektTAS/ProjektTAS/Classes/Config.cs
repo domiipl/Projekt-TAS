@@ -12,7 +12,7 @@ namespace ProjektTAS.Classes
         /// <summary>
         /// String wymagany do połączenia się z bazą danych
         /// </summary>
-        internal static string ConnectionString { get; private set; } = @"Server=107.6.175.140;Port=3306;Database=projekt_mysql;User Id=tasbackend;Password=TASBACKEND;";
+        internal const string ConnectionString = @"Server=107.6.175.140;Port=3306;Database=projekt_mysql;User Id=tasbackend;Password=TASBACKEND;";
     }
 
     /// <summary>

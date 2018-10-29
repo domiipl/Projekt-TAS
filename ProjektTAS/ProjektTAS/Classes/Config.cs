@@ -34,12 +34,36 @@ namespace ProjektTAS.Classes
         /// Generowanie tokenu uwierzytelniającego
         /// </summary>
         /// <returns>token uwierzytelniający</returns>
-        internal static string GenerateToken() => StringToBase64(new string(Enumerable.Repeat(chars, 24).Select(s => s[new Random().Next(s.Length)]).ToArray()));
-
+        internal static string GenerateToken() => StringToBase64(new string(Enumerable.Repeat(chars, 8).Select(s => s[new Random().Next(s.Length)]).ToArray()));
         /// <summary>
-        /// Do zaimplementowania lepszego hashowania haseł
+        /// Generowanie saltu do hashowania hasła
         /// </summary>
-        /// <returns>na razie zwraca string w Base64</returns>
-        internal static string GeneratePasswordHash(string password) => StringToBase64(password);
+        /// <returns>salt w formie stringa</returns>
+        internal static string GenerateSalt() => StringToBase64(new string(Enumerable.Repeat(chars, 24).Select(s => s[new Random().Next(s.Length)]).ToArray()));
+        /// <summary>
+        /// Generowanie zahashowanego hasła
+        /// </summary>
+        /// <returns>Zahashowane hasło na podstawie podanego hasła i salt</returns>
+        internal static string GeneratePasswordHash(string password, string salt)
+        {
+            string password64 = StringToBase64(password);
+            return StringToBase64(salt.Substring(0, salt.Length / 4) + password64.Substring(0, password64.Length / 2) + salt.Substring(0, Convert.ToInt32(salt.Length / 2.33)) + password64.Substring(password.Length / 2, password64.Length / 4) + salt.Substring(0, salt.Length - Convert.ToInt32(Math.Floor(salt.Length / 4.5))));
+        }
+        /// <summary>
+        /// Wyselectuj salt użytkownika
+        /// </summary>
+        /// <param name="login">login użytkownika</param>
+        /// <returns>salt użytkownika</returns>
+        internal static string GetUserSalt(string login)
+        {
+            string salt = "";
+            MySQLObject mySQL = new MySQLObject();
+            var data = mySQL.Select("select `salt` from `uzytkownicy` where `login` = '" + login + "'");
+            if (data.Rows.Count > 0)
+            {
+                salt = data.Rows[0]["salt"].ToString();
+            }
+            return salt;
+        }
     }
 }

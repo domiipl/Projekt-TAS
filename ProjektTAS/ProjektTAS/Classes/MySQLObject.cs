@@ -5,7 +5,7 @@ namespace ProjektTAS.Classes
 {
     public class MySQLObject
     {
-        public MySqlConnection _Connection { get; private set; }
+        public MySqlConnection _Connection { get; private set; } = new MySqlConnection();
         public DataTable Data { get; private set; }
 
         public MySQLObject(string ConnectionString = Config.ConnectionString)
@@ -17,6 +17,7 @@ namespace ProjektTAS.Classes
         public DataTable Select(string sql)
         {
             _Connection.Open();
+            Data = new DataTable();
             MySqlDataAdapter adapter = new MySqlDataAdapter(sql, _Connection);
             MySqlCommand command = new MySqlCommand(sql, _Connection);
             adapter.Fill(Data);

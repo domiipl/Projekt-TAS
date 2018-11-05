@@ -6,6 +6,21 @@ using System.Linq;
 
 namespace ProjektTAS.Controllers
 {
+    /// <summary>
+    /// Kontroler użytkownika
+    /// POST rest/v1/user/create
+    /// {
+    ///     "Login" : string required,
+    ///     "Password" : string required,
+    ///     "Email" : string required
+    /// }
+    /// 
+    /// POST rest/v1/user/login
+    /// {
+    ///     "Login" : string required,
+    ///     "Password" : string required
+    /// }
+    /// </summary>
     [Produces("application/json")]
     [Route("rest/v1/[controller]/[action]")]
     public class UserController : ControllerBase

@@ -9,6 +9,20 @@ using ProjektTAS.Classes;
 
 namespace ProjektTAS.Controllers
 {
+    /// <summary>
+    /// Kontroler kategorii
+    /// GET rest/v1/category/get/{id}
+    ///     Wymaga headera Authorization
+    ///     Wymaga od użytkownika bycia moderatorem lub administratorem
+    ///     
+    /// POST rest/v1/category/create
+    ///     Wymaga headera Authorization
+    ///     Wymaga od użytkownika bycia moderatorem lub administratorem
+    ///     {
+    ///         "Name" : string required,
+    ///         "ParentId" : int
+    ///     }
+    /// </summary>
     [Produces("application/json")]
     [Route("rest/v1/[controller]/[action]")]
     public class CategoryController : Controller

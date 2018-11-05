@@ -5,6 +5,16 @@ using System.Linq;
 
 namespace ProjektTAS.Controllers
 {
+    /// <summary>
+    /// kontroler produktów
+    /// POST /rest/v1/product/create 
+    /// {
+    ///     "CategoryId" : int required,
+    ///     "UserId" : int required,
+    ///     "Name" : string,
+    ///     "Price" : decimal
+    /// }
+    /// </summary>
     [Produces("application/json")]
     [Route("rest/v1/[controller]/[action]")]
     public class ProductController : Controller

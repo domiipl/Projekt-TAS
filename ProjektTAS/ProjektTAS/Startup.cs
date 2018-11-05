@@ -16,6 +16,15 @@ namespace ProjektTAS
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Task logoffTask = new Task(Logoff);
+            logoffTask.Start();
+        }
+        private async void Logoff()
+        {
+            Classes.MySQLObject mySQL = new Classes.MySQLObject();
+            mySQL.Update(@"update `projekt_mysql`.`tokeny_logowania` set `aktywny` = 0 where `data_wygasniecia` < now()");
+            await Task.Delay(60000);
+            Logoff();
         }
 
         public IConfiguration Configuration { get; }

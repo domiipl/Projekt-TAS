@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 
@@ -80,6 +82,21 @@ namespace ProjektTAS.Classes
                 id = Convert.ToInt32(data.Rows[0]["id_uzytkownika"]);
             }
             return id;
+        }
+
+        /// <summary>
+        /// Przeparsowanie danych z selecta do łatwiejszej do obrobienia formy
+        /// </summary>
+        /// <param name="dt">DataTable</param>
+        /// <returns>Asynchroniczny enumerable na podstawie wierszy, w pierwszym wierszu są podane kolumny, w kolejnych wierszach dane</returns>
+        public static IAsyncEnumerable<object[]> ParseSelect(DataTable dt)
+        {
+            List<object[]> rows = new List<object[]>();
+            List<object> columns = new List<object>();
+            dt.Columns.OfType<DataColumn>().ToList().ForEach(x => columns.Add(x.ColumnName));
+            rows.Add(columns.ToArray());
+            dt.Rows.OfType<DataRow>().ToList().ForEach(x => rows.Add(x.ItemArray));
+            return rows.ToAsyncEnumerable();
         }
     }
 }

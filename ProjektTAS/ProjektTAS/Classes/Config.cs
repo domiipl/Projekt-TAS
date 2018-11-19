@@ -95,7 +95,17 @@ namespace ProjektTAS.Classes
             List<object> columns = new List<object>();
             dt.Columns.OfType<DataColumn>().ToList().ForEach(x => columns.Add(x.ColumnName));
             rows.Add(columns.ToArray());
-            dt.Rows.OfType<DataRow>().ToList().ForEach(x => rows.Add(x.ItemArray));
+            dt.Rows.OfType<DataRow>().ToList().ForEach(x =>
+            {
+                List<object> column = new List<object>();
+                foreach (object item in x.ItemArray)
+                {
+                    if (item is DBNull)
+                        column.Add(null);
+                    else column.Add(item);
+                }
+                rows.Add(column.ToArray());
+            });
             return rows.ToAsyncEnumerable();
         }
     }

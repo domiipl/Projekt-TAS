@@ -40,23 +40,23 @@ namespace ProjektTAS.Controllers
                                                                   '{StaticMethods.GenerateToken()}',
                                                                   0,
                                                                   NOW())");
-                    return StatusCode(200, "Created user " + user.Login + " successfully");
+                    return StatusCode(200, @"{""Result"" : ""Created user " + user.Login + @" successfully""}");
                 }
                 catch (Exception exc)
                 {
                     if (exc is MySql.Data.MySqlClient.MySqlException)
                     {
-                        return StatusCode(400, "Login or email is already taken, try another one");
+                        return StatusCode(400, @"{""Result"" : ""Login or email is already taken, try another one""}");
                     }
                     else
                     {
-                        return StatusCode(400, "Wrong request");
+                        return StatusCode(400, @"{""Result"" : ""Wrong request""}");
                     }
                 }
             }
             else
             {
-                return StatusCode(400, "Wrong request");
+                return StatusCode(400, @"{""Result"" : ""Wrong request""}");
             }
         }
 
@@ -76,12 +76,12 @@ namespace ProjektTAS.Controllers
                 }
                 else
                 {
-                    return StatusCode(403, "Wrong login or password");
+                    return StatusCode(403, @"{""Result"" : ""Wrong login or password""}");
                 }
             }
             else
             {
-                return StatusCode(400, "Wrong request");
+                return StatusCode(400, @"{""Result"" : ""Wrong request""}");
             }
         }
     }

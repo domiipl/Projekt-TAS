@@ -52,17 +52,17 @@ namespace ProjektTAS.Controllers
                     }
                     else
                     {
-                        return StatusCode(500, "Something went terribly wrong");
+                        return StatusCode(500, @"{""Result"" : ""Something went terribly wrong""}");
                     }
                 }
                 else
                 {
-                    return StatusCode(403, "Method requires administrative privileges or your token is invalid");
+                    return StatusCode(403, @"{""Result"" : ""Method requires administrative privileges or your token is invalid""}");
                 }
             }
             else
             {
-                return StatusCode(400, "Wrong request");
+                return StatusCode(400, @"{""Result"" : ""Wrong request""}");
             }
         }
 

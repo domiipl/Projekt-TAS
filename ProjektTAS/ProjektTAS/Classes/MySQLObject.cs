@@ -35,5 +35,7 @@ namespace ProjektTAS.Classes
 
         public void Insert(string sql) => ReturnlessQuery(sql);
         public void Update(string sql) => ReturnlessQuery(sql);
+        public void Replace(string sql) => ReturnlessQuery(sql);
+        public void Delete(string sql) => ReturnlessQuery(sql);
     }
 }

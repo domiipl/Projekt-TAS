@@ -28,7 +28,7 @@ namespace ProjektTAS.Controllers
         [HttpPost]
         public object Create([FromBody]User user)
         {
-            if (user.Login != null && user.Password != null && user.Email != null)
+            if (user.Login != null && user.Password != null && user.Email != null && user.IsPasswordOk && user.IsLoginOk)
             {
                 MySQLObject mySQL = new MySQLObject();
                 try
@@ -46,13 +46,17 @@ namespace ProjektTAS.Controllers
                 {
                     if (exc is MySql.Data.MySqlClient.MySqlException)
                     {
-                        return StatusCode(400, @"{""Result"" : ""Login or email is already taken, try another one""}");
+                        return StatusCode(403, @"{""Result"" : ""Login or email is already taken, try another one""}");
                     }
                     else
                     {
                         return StatusCode(400, @"{""Result"" : ""Wrong request""}");
                     }
                 }
+            }
+            else if(!user.IsLoginOk || !user.IsPasswordOk)
+            {
+                return StatusCode(403, @"{""Result"" : ""Login or password did not meet the requirements""}");
             }
             else
             {
@@ -113,6 +117,8 @@ namespace ProjektTAS.Controllers
         internal string _Salt { get; set; } = StaticMethods.GenerateSalt();
         public string Password { get => _Password; set => _Password = StaticMethods.GeneratePasswordHash(value, _Salt); }
         public string Email { get; set; }
+        public bool IsPasswordOk { get => _Password.Length >= 6; }
+        public bool IsLoginOk { get => Login.Length >= 6; }
     }
     public enum Privileges
     {

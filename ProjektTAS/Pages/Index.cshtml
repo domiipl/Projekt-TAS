@@ -114,62 +114,22 @@
                 @{
                     foreach (System.Data.DataRow row in Model.Kategorie().Rows)
                     {
-                        <a class="item" href="tutaj link do kategorii">@row["nazwa"].ToString()</a>
+                        <a class="item" href=@row["nazwa"]>@row["nazwa"].ToString()</a>
                     }
                 }
             </div>
         </div>
     </div>
 
-    <!--
-         <div class="ui grid elements">
-            <div class="four wide column">dasdsadasdasdsadasdasdasdas sadasd sdasd asdasd asd asdasd asda</div>
-            <div class="four wide column">dasdsadasdasdsadasdasdasdas sadasd sdasd asdasd asd asdasd asda</div>
-            <div class="four wide column">dasdsadasdasdsadasdasdasdas sadasd sdasd asdasd asd asdasd asda</div>
-            <div class="four wide column">dasdsadasdasdsadasdasdasdas sadasd sdasd asdasd asd asdasd asda</div>
-            <div class="four wide column">dasdsadasdasdsadasdasdasdas sadasd sdasd asdasd asd asdasd asda</div>
-            <div class="four wide column">dasdsadasdasdsadasdasdasdas sadasd sdasd asdasd asd asdasd asda</div>
-            <div class="four wide column">dasdsadasdasdsadasdasdasdas sadasd sdasd asdasd asd asdasd asda</div>
-            <div class="four wide column">dasdsadasdasdsadasdasdasdas sadasd sdasd asdasd asd asdasd asda</div>
-          </div>
-        </div>
-    -->
-
     <div class="ui stackable four column very relaxed grid">
         
     @{
         foreach (System.Data.DataRow row in Model.Produkty().Rows)
         {<div class="column">
-            <a class="item">@row["nazwa"].ToString()</a>
+            <a class="item" href="Produkt/@row["id_przedmiotu"]">@row["nazwa"].ToString()</a>
         </div>
         }
-    }
-    <!--   
-        <div class="column">
-            <img class="ui wireframe image" src="~/img/image.png">
-        </div>
-        <div class="column">
-            <img class="ui wireframe image" src="~/img/image.png">
-        </div>
-        <div class="column">
-            <img class="ui wireframe image" src="~/img/image.png">
-        </div>
-    </div>
-
-    <div class="ui stackable four column very relaxed grid">
-        <div class="column">
-            <img class="ui wireframe image" src="~/img/image.png">
-        </div>
-        <div class="column">
-            <img class="ui wireframe image" src="~/img/image.png">
-        </div>
-        <div class="column">
-            <img class="ui wireframe image" src="~/img/image.png">
-        </div>
-        <div class="column">
-            <img class="ui wireframe image" src="~/img/image.png">
-        </div>
-        --> 
+    } 
     </div>
         
 

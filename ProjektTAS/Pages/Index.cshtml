@@ -15,6 +15,9 @@
     {
         isRegistered = true;
     }
+    
+
+    
 }
 
 <!DOCTYPE html>
@@ -23,16 +26,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Nazwa_strony</title>
+    <title>Strona główna</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
     <link rel="stylesheet" href="~/css/style.css">
-
+    <script src="~/js/overlay.js"></script>
 </head>
 <body>
 
     <div class="ui menu">
 
-        <a class="item">Dodaj produkt</a>
+        @if (isLoggedIn)
+        {
+            <div id="overlay">
+                <div id="specialbox">
+                    <div class="ui grid">
+                        <div class="column">
+                            <h2 class="ui teal header" align="center">Dodaj produkt</h2>
+                            <form class="ui large form">
+                                <div class="ui stacked segment">
+                                    <p>
+                                        <select class="ui dropdown" >
+                                            <option value="">Wybierz kategorię</option>
+                                            @{
+                                                foreach (System.Data.DataRow row in Model.AllCategories().Rows)
+                                                {
+                                                    <option value="@row["nazwa"].ToString()">@row["nazwa"].ToString()</option>
+                                                }
+                                            }
+                                        </select>
+                                    </p>
+                                    <div class="field" >
+                                        <div class="ui left icon input">
+                                            <i class="pencil alternate icon"></i>
+                                            <input type="text" id="nazwa" placeholder="Nazwa produktu">
+                                        </div>
+                                    </div>
+                                    <div class="field" >
+                                        <div class="ui left icon input">
+                                            <i class="money bill alternate icon"></i>
+                                            <input type="text" id="cena" placeholder="Cena produktu">
+                                        </div>
+                                    </div>
+                                    <div class="ui error message"></div>
+                                    <div class="ui fluid large teal submit button" onclick="">Potwierdź</div>
+                                    <p>
+                                        <div class="ui fluid large grey button" onclick="overlaywl()">Anuluj</div>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="ui teal button" onclick="overlaywl()">Dodaj produkt</button>
+        }
 
         <div class="right menu">
             <div class="ui buttons">
@@ -57,21 +105,18 @@
         </div>
     </div>
 
+    <div class="text"></div>
+
     <div class="ui vertical big menu">
         <div class="item">
             <div class="header">Kategorie</div>
             <div class="menu">
-                <a class="item">Biżuteria i zegarki</a>
-                <a class="item">Dla dzieci</a>
-                <a class="item">Dom</a>
-                <a class="item">Fotografia</a>
-                <a class="item">Gry</a>
-                <a class="item">Komputery</a>
-                <a class="item">Motoryzacja</a>
-                <a class="item">Ogród</a>
-                <a class="item">Sprzęt RTV</a>
-                <a class="item">Telefony</a>
-                <a class="item">Zdrowie</a>
+                @{
+                    foreach (System.Data.DataRow row in Model.Kategorie().Rows)
+                    {
+                        <a class="item" href="tutaj link do kategorii">@row["nazwa"].ToString()</a>
+                    }
+                }
             </div>
         </div>
     </div>
@@ -91,9 +136,15 @@
     -->
 
     <div class="ui stackable four column very relaxed grid">
-        <div class="column">
-            <img class="ui wireframe image" src="~/img/image.png">
+        
+    @{
+        foreach (System.Data.DataRow row in Model.Produkty().Rows)
+        {<div class="column">
+            <a class="item">@row["nazwa"].ToString()</a>
         </div>
+        }
+    }
+    <!--   
         <div class="column">
             <img class="ui wireframe image" src="~/img/image.png">
         </div>
@@ -118,8 +169,9 @@
         <div class="column">
             <img class="ui wireframe image" src="~/img/image.png">
         </div>
+        --> 
     </div>
-
+        
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>

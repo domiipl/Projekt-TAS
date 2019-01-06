@@ -18,5 +18,21 @@ namespace ProjektTAS.Pages
             if (mySQL.Data.Rows.Count > 0) return Newtonsoft.Json.JsonConvert.SerializeObject(Classes.StaticMethods.ParseSelect(mySQL.Data));
             else return null;
         }
+        public DataTable Kategorie()
+        {
+            Classes.MySQLObject mysql = new Classes.MySQLObject();
+            return mysql.Select($@"select * from `projekt_mysql`.`kategoria` where `id_parent` is null");
+        }
+        public DataTable AllCategories()
+        {
+            Classes.MySQLObject mysql = new Classes.MySQLObject();
+            return mysql.Select($@"select * from `projekt_mysql`.`kategoria` where `id` is not null");
+        }
+        public DataTable Produkty()
+        {
+            Classes.MySQLObject mysql = new Classes.MySQLObject();
+            return mysql.Select($@"select * from `projekt_mysql`.`przedmiot` where `id_przedmiotu` is not null");
+        }
     }
+    
 }

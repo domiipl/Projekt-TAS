@@ -58,7 +58,7 @@
 
     <div class="ui raised very padded text container segment">
         <h4 class="ui horizontal divider header">
-            <i class="bar chart icon"></i>
+            <i class="tag icon"></i>
             Produkt
         </h4>
         <table class="ui definition table">
@@ -84,7 +84,7 @@
         </table>
             
     <h4 class="ui horizontal divider header">
-    <i class="tag icon"></i>
+    <i class="bar chart icon"></i>
     Opinie o produkcie
     </h4>
     @{
@@ -103,17 +103,19 @@
         {
             <form class="ui reply form">
                 <div class="field">
-                <div class="ui star rating" data-rating="3"></div>
-                <textarea></textarea>
+                <textarea id="comment"></textarea>
+                Oceń produkt
+                <div class="ui star rating" id="rating" data-rating="3"></div>
                 </div>
                 <div class="ui primary submit labeled icon button">
-                <i class="icon edit"></i> Add Comment
+                <i class="icon edit"></i> Dodaj opinię
                 </div>
             </form>
         }
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+    <script type="text/javascript">$(document).ready(function(){$(".rating").rating({maxRating: 5});});</script>
     <script src="~/js/main.js"></script>
 </body>
 </html>

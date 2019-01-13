@@ -5,14 +5,13 @@ function addComment() {
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onreadystatechange = function() {
     if (xhr.readyState === xhr.DONE && xhr.status === 200) {
-      var json = JSON.parse(xhr.responseText);
       console.log(xhr.responseText);
-      window.location =
-        "http://localhost:48013/Index?token=" + xhr.responseText;
+      window.location.reload(true);
     }
   };
-  var login = document.getElementById("login").value;
-  var password = document.getElementById("password").value;
-  var data = JSON.stringify({ Login: login, Password: password });
+  var id = document.getElementById("id").value;
+  var comment = document.getElementById("comment").value;
+  var rating = document.getElementById("rating").value;
+  var data = JSON.stringify({ productid: id, review: comment, rating: rating});
   xhr.send(data);
 }

@@ -1,4 +1,4 @@
-@page "{id?}"
+﻿@page "{id?}"
 @model ProjektTAS.Pages.ProduktModel
 @{
     Layout = null;
@@ -90,7 +90,7 @@
     @{
             foreach (System.Data.DataRow row in Model.Oceny(@Model.idPrzedmiotu).Rows)
             {<div class="column">
-                <a class="item">@row["ocena"]/5</a>
+                <a class="item">@row["ocena"].ToString()/5</a>
             </div>
             <div class="column">
                 <a class="item">@row["opinia"].ToString()</a>

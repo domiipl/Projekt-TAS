@@ -25,7 +25,7 @@ namespace ProjektTAS.Classes
         /// <summary>
         /// Do generowania tokenów
         /// </summary>
-        private const string chars = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+{}|;:,<.>/?|";
+        private const string _Chars = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+{}|;:,<.>/?|";
         /// <summary>
         /// Konwersja stringa zakodowanego w UTF8 na Base64
         /// </summary>
@@ -36,12 +36,12 @@ namespace ProjektTAS.Classes
         /// Generowanie tokenu uwierzytelniającego
         /// </summary>
         /// <returns>token uwierzytelniający</returns>
-        internal static string GenerateToken() => StringToBase64(new string(Enumerable.Repeat(chars, 8).Select(s => s[new Random().Next(s.Length)]).ToArray()));
+        internal static string GenerateToken() => StringToBase64(new string(Enumerable.Repeat(_Chars, 8).Select(s => s[new Random().Next(s.Length)]).ToArray()));
         /// <summary>
         /// Generowanie saltu do hashowania hasła
         /// </summary>
         /// <returns>salt w formie stringa</returns>
-        internal static string GenerateSalt() => StringToBase64(new string(Enumerable.Repeat(chars, 24).Select(s => s[new Random().Next(s.Length)]).ToArray()));
+        internal static string GenerateSalt() => StringToBase64(new string(Enumerable.Repeat(_Chars, 24).Select(s => s[new Random().Next(s.Length)]).ToArray()));
         /// <summary>
         /// Generowanie zahashowanego hasła
         /// </summary>

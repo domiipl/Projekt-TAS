@@ -6,8 +6,8 @@
     xhr.onreadystatechange = function () {
         if (xhr.readyState === xhr.DONE && xhr.status === 200) {
             var json = JSON.parse(xhr.responseText);
-            console.log(xhr.responseText);
-            window.location = "http://localhost:48013/Index?token=" + xhr.responseText;
+            document.cookie = "SessionToken=" + xhr.responseText + "; path=/";
+            window.location = "http://localhost:48013/Index";
         }
     };
     var login = document.getElementById("login").value;

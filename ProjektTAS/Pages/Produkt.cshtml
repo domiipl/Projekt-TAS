@@ -5,8 +5,8 @@
     bool isLoggedIn = false;
 }
 
-@{
-    if (Request.Query.TryGetValue("token", out Microsoft.Extensions.Primitives.StringValues value) && ProjektTAS.Classes.StaticMethods.IsTokenValid(value.ToString()))
+@{ 
+    if(Request.Cookies.TryGetValue("SessionToken", out string token) && ProjektTAS.Classes.StaticMethods.IsTokenValid(token.ToString()))
     {
         isLoggedIn = true;
     }
@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
     <link rel="stylesheet" href="~/css/style.css">
     <script src="~/js/addComment.js"></script>
+    <script src="~/js/main.js"></script>
 </head>
 <body>
 
@@ -30,13 +31,13 @@
             <div class="ui buttons">
                 @if (isLoggedIn)
                 {
-                    <button class="ui teal button "><a href="Index">Wyloguj się</a></button>
+                    <button class="ui teal button "><a href="/Index" onclick="logoff()">Wyloguj się</a></button>
                 }
                 else
                 {
-                    <button class="ui teal button"><a href="Login">Zaloguj się</a></button>
+                    <button class="ui teal button"><a href="/Login">Zaloguj się</a></button>
                     <div class="or"></div>
-                    <button class="ui button"><a href="Rejestracja">Rejestracja</a></button>
+                    <button class="ui button"><a href="/Rejestracja">Rejestracja</a></button>
                 }
             </div>
         </div>
@@ -49,7 +50,7 @@
                 @{
                     foreach (System.Data.DataRow row in Model.Kategorie().Rows)
                     {
-                        <a class="item" href=@row["nazwa"]>@row["nazwa"].ToString()</a>
+                        <a class="item" href="/@row["nazwa"]">@row["nazwa"].ToString()</a>
                     }
                 }
             </div>
@@ -68,11 +69,11 @@
                 <tbody>
                     <tr>
                         <td class="two wide column">Nazwa</td>
-                        <td>@row["nazwa"]</td>
+                        <td>@row["nazwa_produktu"]</td>
                     </tr>
                     <tr>
                         <td>Kategoria</td>
-                        <td>@row["id_kategorii"]</td>
+                        <td>@row["nazwa_kategorii"]</td>
                     </tr>
                     <tr>
                         <td>Cena</td>
@@ -99,15 +100,16 @@
             }
         }
 
-     @if (!isLoggedIn)
+     @if (isLoggedIn)
         {
             <form class="ui reply form">
+                <div hidden id="id">@Model.idPrzedmiotu</div>
                 <div class="field">
                 <textarea id="comment"></textarea>
                 Oceń produkt
                 <div class="ui star rating" id="rating" data-rating="3"></div>
                 </div>
-                <div class="ui primary submit labeled icon button">
+                <div class="ui primary submit labeled icon button" onclick="addComment(getCookie('SessionToken'))">
                 <i class="icon edit"></i> Dodaj opinię
                 </div>
             </form>

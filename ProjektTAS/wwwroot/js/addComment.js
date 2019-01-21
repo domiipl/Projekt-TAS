@@ -10,9 +10,9 @@ function addComment(token) {
       window.location.reload(true);
     }
   };
-  var id = document.getElementById("id").innerHTML;
-  var comment = document.getElementById("comment").value;
-  // var rating = document.getElementById("rating").value;
-  var data = JSON.stringify({ productid: id, review: comment, rating: rating });
+  var productid = document.getElementById("id").innerHTML;
+  var review = document.getElementById("comment").value;
+  var rating = document.getElementById("productRating").innerHTML;
+  var data = JSON.stringify({ productid: productid, review: review, rating: rating });
   xhr.send(data);
 }

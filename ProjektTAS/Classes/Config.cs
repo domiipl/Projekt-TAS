@@ -122,5 +122,16 @@ namespace ProjektTAS.Classes
                 return false;
             }
         }
+        public static string GetUserName(string token)
+        {
+            MySQLObject mySQL = new MySQLObject();
+            var data = mySQL.Select("select t1.`login` " +
+                "                    from `tokeny_logowania` t0 " +
+                "                    inner join `uzytkownicy` t1 on t0.`id_uzytkownika` = t1.`id_uzytkownika` " +
+                "                    where t0.`token` = '" + token.Replace("\"","") + "'");
+            if (data.Rows.Count > 0)
+                return data.Rows[0]["login"].ToString();
+            return "";
+        }
     }
 }

@@ -3,12 +3,14 @@
 @{
     Layout = null;
     bool isLoggedIn = false;
+    string sessionToken = "";
 }
 
-@{ 
-    if(Request.Cookies.TryGetValue("SessionToken", out string token) && ProjektTAS.Classes.StaticMethods.IsTokenValid(token.ToString()))
+@{
+    if (Request.Cookies.TryGetValue("SessionToken", out string token) && ProjektTAS.Classes.StaticMethods.IsTokenValid(token.ToString()))
     {
         isLoggedIn = true;
+        sessionToken = token.Replace("\"", "");
     }
 }
 
@@ -63,54 +65,54 @@
             Produkt
         </h4>
         <table class="ui definition table">
-        @{
-            foreach (System.Data.DataRow row in Model.Przedmiot(@Model.idPrzedmiotu).Rows)
-            {  
-                <tbody>
-                    <tr>
-                        <td class="two wide column">Nazwa</td>
-                        <td>@row["nazwa_produktu"]</td>
-                    </tr>
-                    <tr>
-                        <td>Kategoria</td>
-                        <td>@row["nazwa_kategorii"]</td>
-                    </tr>
-                    <tr>
-                        <td>Cena</td>
-                        <td>@row["cena"] PLN</td>
-                    </tr>
-                </tbody>
+            @{
+                foreach (System.Data.DataRow row in Model.Przedmiot(@Model.idPrzedmiotu).Rows)
+                {
+                    <tbody>
+                        <tr>
+                            <td class="two wide column">Nazwa</td>
+                            <td>@row["nazwa_produktu"]</td>
+                        </tr>
+                        <tr>
+                            <td>Kategoria</td>
+                            <td>@row["nazwa_kategorii"]</td>
+                        </tr>
+                        <tr>
+                            <td>Cena</td>
+                            <td>@row["cena"] PLN</td>
+                        </tr>
+                    </tbody>
+                }
             }
-        }
         </table>
-            
-    <h4 class="ui horizontal divider header">
-    <i class="bar chart icon"></i>
-    Opinie o produkcie
-    </h4>
-    @{
+
+        <h4 class="ui horizontal divider header">
+            <i class="bar chart icon"></i>
+            Opinie o produkcie
+        </h4>
+        @{
             foreach (System.Data.DataRow row in Model.Oceny(@Model.idPrzedmiotu).Rows)
             {<div class="column">
-                <a class="item">@row["ocena"].ToString()/5</a>
-            </div>
-            <div class="column">
-                <a class="item">@row["opinia"].ToString()</a>
-            </div>
-            <div class="ui divider"></div>
+                    <a class="item">@row["ocena"].ToString()/5</a>
+                </div>
+                <div class="column">
+                    <a class="item">@row["opinia"].ToString()</a>
+                </div>
+                <div class="ui divider"></div>
             }
         }
 
-     @if (isLoggedIn)
+        @if (isLoggedIn)
         {
             <form class="ui reply form">
                 <div hidden id="id">@Model.idPrzedmiotu</div>
                 <div class="field">
-                <textarea id="comment"></textarea>
-                Oceń produkt
-                <div class="ui star rating" id="rate" value="starSelected" data-rating="3"></div>
+                    <textarea id="comment"></textarea>
+                    Oceń produkt
+                    <div class="ui star rating" id="rate" value="starSelected" data-rating="3"></div>
                 </div>
                 <div class="ui primary submit labeled icon button" onclick="addComment(getCookie('SessionToken'))">
-                <i class="icon edit"></i> Dodaj opinię
+                    <i class="icon edit"></i> Dodaj opinię
                 </div>
             </form>
         }

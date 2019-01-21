@@ -4,12 +4,14 @@
     Layout = null;
     bool isLoggedIn = false;
     bool isRegistered = false;
+    string sessionToken = "";
 }
 
 @{
     if (Request.Cookies.TryGetValue("SessionToken", out string token) && ProjektTAS.Classes.StaticMethods.IsTokenValid(token.ToString()))
     {
         isLoggedIn = true;
+        sessionToken = token.Replace("\"", "");
     }
     if (Request.Query.TryGetValue("registered", out Microsoft.Extensions.Primitives.StringValues value) && value == "true")
     {
@@ -46,7 +48,7 @@
                             <form class="ui large form">
                                 <div class="ui stacked segment">
                                     <p>
-                                        <select class="ui dropdown" >
+                                        <select class="ui dropdown">
                                             <option value="">Wybierz kategorię</option>
                                             @{
                                                 foreach (System.Data.DataRow row in Model.AllCategories().Rows)
@@ -56,13 +58,13 @@
                                             }
                                         </select>
                                     </p>
-                                    <div class="field" >
+                                    <div class="field">
                                         <div class="ui left icon input">
                                             <i class="pencil alternate icon"></i>
                                             <input type="text" id="nazwa" placeholder="Nazwa produktu">
                                         </div>
                                     </div>
-                                    <div class="field" >
+                                    <div class="field">
                                         <div class="ui left icon input">
                                             <i class="money bill alternate icon"></i>
                                             <input type="text" id="cena" placeholder="Cena produktu">
@@ -87,7 +89,8 @@
             <div class="ui buttons">
                 @if (isLoggedIn)
                 {
-                    <button class="ui teal button "><a href="/Index" onclick="logoff()">Wyloguj się</a></button>
+                    <button class="ui teal button"><img src="~/img/default_avatar.png" /></button>
+                    <button class="ui teal button" onclick="logoff()">Wyloguj się</button>
                 }
                 else
                 {
@@ -123,16 +126,16 @@
     </div>
 
     <div class="ui stackable four column very relaxed grid">
-        
-    @{
-        foreach (System.Data.DataRow row in Model.Produkty().Rows)
-        {<div class="column">
-            <a class="item" href="Produkt/@row["id_przedmiotu"]">@row["nazwa"].ToString()</a>
-        </div>
+
+        @{
+            foreach (System.Data.DataRow row in Model.Produkty().Rows)
+            {<div class="column">
+                    <a class="item" href="Produkt/@row["id_przedmiotu"]">@row["nazwa"].ToString()</a>
+                </div>
+            }
         }
-    } 
     </div>
-        
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>

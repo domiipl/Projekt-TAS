@@ -1,4 +1,4 @@
-function addComment(token) {
+function addComment(token, productid) {
   var xhr = new XMLHttpRequest();
   var url = "http://localhost:48013/rest/v1/review/create";
   xhr.open("POST", url, true);
@@ -10,9 +10,8 @@ function addComment(token) {
       window.location.reload(true);
     }
   };
-  var productid = document.getElementById("id").innerHTML;
   var review = document.getElementById("comment").value;
-  var rating = document.getElementById("productRating").innerHTML;
-  var data = JSON.stringify({ productid: productid, review: review, rating: rating });
+  var rating = document.getElementById("productRating").value;
+  var data = JSON.stringify({ productId: productid, review: review, rating: rating });
   xhr.send(data);
 }

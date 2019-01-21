@@ -19,7 +19,7 @@ namespace ProjektTAS.Pages
         public DataTable Oceny(string idPrzedmiotu)
         {
             Classes.MySQLObject mysql = new Classes.MySQLObject();
-            return mysql.Select($@"select `ocena`,`opinia` from `projekt_mysql`.`oceny` where `id_przedmiotu` = {idPrzedmiotu}");
+            return mysql.Select($@"select t0.`ocena`,t0.`opinia`,t1.`email` from `projekt_mysql`.`oceny` t0 inner join `projekt_mysql`.`uzytkownicy` t1 on t0.`id_uzytkownika` = t1.`id_uzytkownika` where `id_przedmiotu` = {idPrzedmiotu}");
         }
         public DataTable Przedmiot(string idPrzedmiotu)
         {

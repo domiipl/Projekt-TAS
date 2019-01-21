@@ -76,7 +76,7 @@ namespace ProjektTAS.Classes
         {
             int? id = null;
             MySQLObject mySQL = new MySQLObject();
-            var data = mySQL.Select("select `id_uzytkownika` from `tokeny_logowania` where `token` = '" + token + "'");
+            var data = mySQL.Select("select `id_uzytkownika` from `tokeny_logowania` where `token` = '" + token.Replace("\"","") + "'");
             if (data.Rows.Count > 0)
             {
                 id = Convert.ToInt32(data.Rows[0]["id_uzytkownika"]);

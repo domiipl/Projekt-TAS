@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="~/css/style.css">
     <script src="~/js/addComment.js"></script>
     <script src="~/js/main.js"></script>
+    <script>
+        var ProductId = @Model.idPrzedmiotu
+    </script>
 </head>
 <body>
 
@@ -33,6 +36,7 @@
             <div class="ui buttons">
                 @if (isLoggedIn)
                 {
+                    <a href="/Account"><button class="ui teal button"><img src="~/img/default_avatar.png" style="height 32px; width : 32px;" /></button></a>
                     <button class="ui teal button "><a href="/Index" onclick="logoff()">Wyloguj się</a></button>
                 }
                 else
@@ -92,30 +96,24 @@
         </h4>
         @{
             foreach (System.Data.DataRow row in Model.Oceny(@Model.idPrzedmiotu).Rows)
-            {<div class="column">
-                    <a class="item">@row["ocena"].ToString()/5</a>
-                </div>
+            {
+                <div class="column">@row["email"].ToString()</div>
+                <a class="ui star rating" data-max-rating="5" data-rating="@row["ocena"].ToString()"></a>
                 <div class="column">
                     <a class="item">@row["opinia"].ToString()</a>
                 </div>
                 <div class="ui divider"></div>
-                <a class="ui star rating" data-max-rating="5" data-rating="@row["ocena"].ToString()"></a>
-            <div class="column">
-                <a class="item">@row["opinia"].ToString()</a>
-            </div>
-            <div class="ui divider"></div>
             }
         }
 
         @if (isLoggedIn)
         {
             <form class="ui reply form">
-                <div hidden id="id">@Model.idPrzedmiotu</div>
                 <div class="field">
                     <textarea id="comment"></textarea>
                 </div>
                 <div class="ui dropdown">
-                <input type="hidden" id="productRating">
+                    <input type="hidden" id="productRating">
                     <div class="default text">Oceń produkt</div>
                     <div class="menu">
                         <div class="item" data-value="1">
@@ -134,8 +132,8 @@
                             <div class="ui star rating" data-rating="5" data-max-rating="5"></div>
                         </div>
                     </div>
-                    </div>
-                <div class="ui primary submit labeled icon button" onclick="addComment(getCookie('SessionToken'))">
+                </div>
+                <div class="ui primary submit labeled icon button" onclick="addComment(getCookie('SessionToken'), ProductId)">
                     <i class="icon edit"></i> Dodaj opinię
                 </div>
             </form>
@@ -144,7 +142,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
     <script src="~/js/main.js"></script>
-    <script type="text/javascript">$(document).ready(function(){$(".rating").rating("disable");});</script>
-    <script type="text/javascript">$(document).ready(function(){$('.ui.dropdown').dropdown();});</script>
+    <script type="text/javascript">$(document).ready(function () { $(".rating").rating("disable"); });</script>
+    <script type="text/javascript">$(document).ready(function () { $('.ui.dropdown').dropdown(); });</script>
 </body>
 </html>

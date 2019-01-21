@@ -98,7 +98,7 @@ namespace ProjektTAS.Controllers
         [HttpPost]
         public object Create([FromBody]Review review)
         {
-            if (Request.Headers.TryGetValue("Authorization", out Microsoft.Extensions.Primitives.StringValues value) && value.ToString().Contains("Bearer ") && review != null && review.productId != null && review.rating != null && review.review != null && review.rating >= 0 && review.rating <= 10)
+            if (Request.Headers.TryGetValue("Authorization", out Microsoft.Extensions.Primitives.StringValues value) && value.ToString().Contains("Bearer ") && review != null && review.productId != null && review.rating != null && review.review != null && review.rating >= 0 && review.rating <= 5)
             {
                 int? userId = StaticMethods.GetUserId(value.ToString().Substring(7));
                 if (userId != null)

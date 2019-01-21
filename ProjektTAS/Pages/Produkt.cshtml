@@ -92,14 +92,8 @@
         </h4>
         @{
             foreach (System.Data.DataRow row in Model.Oceny(@Model.idPrzedmiotu).Rows)
-            {<div class="column">
-                    <a class="item">@row["ocena"].ToString()/5</a>
-                </div>
-                <div class="column">
-                    <a class="item">@row["opinia"].ToString()</a>
-                </div>
-                <div class="ui divider"></div>
-                <a class="ui star rating" data-max-rating="5" data-rating="@row["ocena"].ToString()"></a>
+            {
+            <a class="ui star rating" data-max-rating="5" data-rating="@row["ocena"].ToString()"></a>
             <div class="column">
                 <a class="item">@row["opinia"].ToString()</a>
             </div>

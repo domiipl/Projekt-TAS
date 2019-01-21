@@ -1,4 +1,4 @@
-function addComment(token, rating) {
+function addComment(token) {
   var xhr = new XMLHttpRequest();
   var url = "http://localhost:48013/rest/v1/review/create";
   xhr.open("POST", url, true);

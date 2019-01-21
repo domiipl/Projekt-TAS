@@ -91,7 +91,6 @@
     @{
             foreach (System.Data.DataRow row in Model.Oceny(@Model.idPrzedmiotu).Rows)
             {<div class="column">
-                <!-- <a class="item">@row["ocena"].ToString()/5</a> -->
                 <a class="ui star rating" data-max-rating="5" data-rating="@row["ocena"].ToString()"></a>
             </div>
             <div class="column">

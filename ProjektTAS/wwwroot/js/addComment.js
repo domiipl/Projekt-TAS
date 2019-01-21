@@ -12,7 +12,7 @@ function addComment(token) {
   };
   var productid = document.getElementById("id").innerHTML;
   var review = document.getElementById("comment").value;
-  var rating = document.getElementById("productRating").innerHTML;
+  var rating = document.getElementById("productRating").value;
   var data = JSON.stringify({ productid: productid, review: review, rating: rating });
   xhr.send(data);
 }

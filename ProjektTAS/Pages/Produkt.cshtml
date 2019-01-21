@@ -100,7 +100,6 @@
                 </div>
                 <div class="ui divider"></div>
                 <a class="ui star rating" data-max-rating="5" data-rating="@row["ocena"].ToString()"></a>
-            </div>
             <div class="column">
                 <a class="item">@row["opinia"].ToString()</a>
             </div>
@@ -114,12 +113,7 @@
                 <div hidden id="id">@Model.idPrzedmiotu</div>
                 <div class="field">
                     <textarea id="comment"></textarea>
-                    Oceń produkt
-                    <div class="ui star rating" id="rate" value="starSelected" data-rating="3"></div>
                 </div>
-                <a class="field">
-                    <textarea id="comment"></textarea>
-                </a>
                 <div class="ui dropdown">
                 <input type="hidden" id="productRating">
                     <div class="default text">Oceń produkt</div>

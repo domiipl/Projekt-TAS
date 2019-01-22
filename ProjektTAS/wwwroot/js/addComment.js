@@ -34,6 +34,9 @@ function addComment(token, productid) {
       beforeSend: function (settings) {
         settings.data = JSON.stringify({ productId: productid, review: review, rating: rating });
         return settings;
+      },
+      onSuccess: function (result) {
+        window.location.reload(true);
       }
     });
 }

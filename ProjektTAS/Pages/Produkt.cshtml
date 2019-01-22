@@ -25,6 +25,10 @@
     <link rel="stylesheet" href="~/css/style.css">
     <script src="~/js/addComment.js"></script>
     <script src="~/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+    <script type="text/javascript">$(document).ready(function () { $(".rating").rating("disable"); });</script>
+    <script type="text/javascript">$(document).ready(function () { $('.ui.dropdown').dropdown(); });</script>
     <script>
         var ProductId = @Model.idPrzedmiotu
     </script>
@@ -134,15 +138,10 @@
                     </div>
                 </div>
                 <div class="ui primary submit labeled icon button" onclick="addComment(getCookie('SessionToken'), ProductId)">
-                    <i class="icon edit"></i> Dodaj opinię
+                    <i class="icon edit"></i> Dodaj lub edytuj opinię
                 </div>
             </form>
         }
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
-    <script src="~/js/main.js"></script>
-    <script type="text/javascript">$(document).ready(function () { $(".rating").rating("disable"); });</script>
-    <script type="text/javascript">$(document).ready(function () { $('.ui.dropdown').dropdown(); });</script>
 </body>
 </html>

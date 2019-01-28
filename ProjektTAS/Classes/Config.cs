@@ -84,6 +84,17 @@ namespace ProjektTAS.Classes
             return id;
         }
 
+        internal static string GetUserPassword(string token)
+        {
+            MySQLObject mySQL = new MySQLObject();
+            var data = mySQL.Select("select t1.`haslo` from `tokeny_logowania` t0 inner join `uzytkownicy` t1 on t0.`id_uzytkownika` = t1.`id_uzytkownika` where t0.`aktywny` = 1 and t0.`token` = '" + token.Replace("\"", "") + "'");
+            if (data.Rows.Count > 0)
+            {
+                return data.Rows[0]["haslo"].ToString();
+            }
+            return "";
+        }
+
         /// <summary>
         /// Przeparsowanie danych z selecta do łatwiejszej do obrobienia formy
         /// </summary>
@@ -122,6 +133,7 @@ namespace ProjektTAS.Classes
                 return false;
             }
         }
+
         public static string GetUserName(string token)
         {
             MySQLObject mySQL = new MySQLObject();
@@ -132,6 +144,22 @@ namespace ProjektTAS.Classes
             if (data.Rows.Count > 0)
                 return data.Rows[0]["login"].ToString();
             return "";
+        }
+
+        public static string[] GetUser(string token)
+        {
+            string[] UserData = new string[2];
+            MySQLObject mySQL = new MySQLObject();
+            var data = mySQL.Select("select t1.`login`, t1.`email` " +
+                "                    from `tokeny_logowania` t0 " +
+                "                    inner join `uzytkownicy` t1 on t0.`id_uzytkownika` = t1.`id_uzytkownika` " +
+                "                    where t0.`token` = '" + token.Replace("\"", "") + "'");
+            if (data.Rows.Count > 0)
+            {
+                UserData[0] = data.Rows[0][0].ToString();
+                UserData[1] = data.Rows[0][1].ToString();
+            }
+            return UserData;
         }
     }
 }

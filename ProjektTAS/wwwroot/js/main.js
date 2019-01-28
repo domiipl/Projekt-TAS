@@ -13,7 +13,9 @@
     return "";
 }
 
-function logoff() {
+function logoff(goToIndex) {
+    goToIndex = goToIndex || false;
     document.cookie = "SessionToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    location.reload();
+    if (goToIndex === false) location.reload();
+    else window.location.href = "http://localhost:48013/Index";
 }

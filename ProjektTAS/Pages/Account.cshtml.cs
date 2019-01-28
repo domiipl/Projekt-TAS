@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data;
 using System.Linq;
+using ProjektTAS.Classes;
 
 namespace ProjektTAS.Pages
 {

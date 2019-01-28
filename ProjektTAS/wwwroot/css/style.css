@@ -12,12 +12,20 @@
     text-align: center;
 }
 
+.ui.grid.konto {
+    width: 30%;
+    margin: auto;
+    padding-top: 100px;
+    text-align: center;
+}
+
 .ui.menu {
 }
 
 .ui.vertical.menu {
     float: left;
-    height: 80%;
+    height : 100vh;
+
 }
 
 /*

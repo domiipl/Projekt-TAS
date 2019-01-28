@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MySql.Data.MySqlClient;
 using ProjektTAS.Classes;
 using System;
-using System.Linq;
 
 namespace ProjektTAS.Controllers
 {
@@ -54,7 +52,7 @@ namespace ProjektTAS.Controllers
                     }
                 }
             }
-            else if(!user.IsLoginOk || !user.IsPasswordOk)
+            else if (!user.IsLoginOk || !user.IsPasswordOk)
             {
                 return StatusCode(403, @"{""Result"" : ""Login or password did not meet the requirements""}");
             }
@@ -86,6 +84,71 @@ namespace ProjektTAS.Controllers
             else
             {
                 return StatusCode(400, @"{""Result"" : ""Wrong request""}");
+            }
+        }
+
+        [HttpPost]
+        public object ChangePassword([FromBody]ChangePasswordAttempt changePasswordAttempt)
+        {
+            try
+            {
+                if (Request.Headers.TryGetValue("Authorization", out Microsoft.Extensions.Primitives.StringValues value) && value.ToString().Contains("Bearer "))
+                {
+                    value = value.ToString().Replace("Bearer ", "");
+                    if (changePasswordAttempt.NewPassword == changePasswordAttempt.RepeatedNewPassword
+                        && StaticMethods.IsTokenValid(value)
+                        && StaticMethods.GeneratePasswordHash(changePasswordAttempt.CurrentPassword, StaticMethods.GetUserSalt(StaticMethods.GetUserName(value))) == StaticMethods.GetUserPassword(value))
+                    {
+                        MySQLObject mysql = new MySQLObject();
+                        string newHash = StaticMethods.GeneratePasswordHash(changePasswordAttempt.NewPassword, StaticMethods.GetUserSalt(StaticMethods.GetUserName(value)));
+                        mysql.Update($"update `uzytkownicy` set `haslo` = '{newHash}' where `id_uzytkownika` = '{StaticMethods.GetUserId(value)}' ");
+                        return StatusCode(200);
+                    }
+                    else
+                    {
+                        return StatusCode(403, @"{""Result"" : ""Wrong data""}");
+                    }
+                }
+                else
+                {
+                    return StatusCode(403, @"{""Result"" : ""Wrong token or password""}");
+                }
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost]
+        public object ChangeEmail([FromBody]ChangeEmailAttempt changeEmailAttempt)
+        {
+            try
+            {
+                if (Request.Headers.TryGetValue("Authorization", out Microsoft.Extensions.Primitives.StringValues value) && value.ToString().Contains("Bearer "))
+                {
+                    value = value.ToString().Replace("Bearer ", "");
+                    if (changeEmailAttempt.NewEmail == changeEmailAttempt.RepeatedNewEmail
+                        && StaticMethods.IsTokenValid(value)
+                        && StaticMethods.GeneratePasswordHash(changeEmailAttempt.CurrentPassword, StaticMethods.GetUserSalt(StaticMethods.GetUserName(value))) == StaticMethods.GetUserPassword(value))
+                    {
+                        MySQLObject mysql = new MySQLObject();
+                        mysql.Update($"update `uzytkownicy` set `email` = '{changeEmailAttempt.NewEmail}' where `id_uzytkownika` = '{StaticMethods.GetUserId(value)}' ");
+                        return StatusCode(200);
+                    }
+                    else
+                    {
+                        return StatusCode(403, @"{""Result"" : ""Wrong data""}");
+                    }
+                }
+                else
+                {
+                    return StatusCode(403, @"{""Result"" : ""Wrong token or password""}");
+                }
+            }
+            catch
+            {
+                return StatusCode(500);
             }
         }
     }
@@ -125,5 +188,18 @@ namespace ProjektTAS.Controllers
         User = 2,
         Moderator = 3,
         Administrator = 4
+    }
+
+    public class ChangePasswordAttempt
+    {
+        public string CurrentPassword { get; set; }
+        public string NewPassword { get; set; }
+        public string RepeatedNewPassword { get; set; }
+    }
+    public class ChangeEmailAttempt
+    {
+        public string CurrentPassword { get; set; }
+        public string NewEmail { get; set; }
+        public string RepeatedNewEmail { get; set; }
     }
 }

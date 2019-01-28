@@ -1,10 +1,11 @@
 ﻿@page
-@model ProjektTAS.Pages.IndexModel
+@model ProjektTAS.Pages.AccountModel
 @{
     Layout = null;
     bool isLoggedIn = false;
     bool isRegistered = false;
     string sessionToken = "";
+    string[] userData = new string[2];
 }
 
 @{
@@ -12,6 +13,7 @@
     {
         isLoggedIn = true;
         sessionToken = token.Replace("\"", "");
+        userData = ProjektTAS.Classes.StaticMethods.GetUser(sessionToken);
     }
     if (Request.Query.TryGetValue("registered", out Microsoft.Extensions.Primitives.StringValues value) && value == "true")
     {
@@ -28,117 +30,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Strona główna</title>
+    <title>Konto</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
     <link rel="stylesheet" href="~/css/style.css">
-    <script src="~/js/overlay.js"></script>
-    <script src="~/js/main.js"></script>
 </head>
 <body>
 
     <div class="ui menu">
-
-        @if (isLoggedIn)
-        {
-            <div id="overlay">
-                <div id="specialbox">
-                    <div class="ui grid">
-                        <div class="column">
-                            <h2 class="ui teal header" align="center">Dodaj produkt</h2>
-                            <form class="ui large form">
-                                <div class="ui stacked segment">
-                                    <p>
-                                        <select class="ui dropdown">
-                                            <option value="">Wybierz kategorię</option>
-                                            @{
-                                                foreach (System.Data.DataRow row in Model.AllCategories().Rows)
-                                                {
-                                                    <option value="@row["nazwa"].ToString()">@row["nazwa"].ToString()</option>
-                                                }
-                                            }
-                                        </select>
-                                    </p>
-                                    <div class="field">
-                                        <div class="ui left icon input">
-                                            <i class="pencil alternate icon"></i>
-                                            <input type="text" id="nazwa" placeholder="Nazwa produktu">
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="ui left icon input">
-                                            <i class="money bill alternate icon"></i>
-                                            <input type="text" id="cena" placeholder="Cena produktu">
-                                        </div>
-                                    </div>
-                                    <div class="ui error message"></div>
-                                    <div class="ui fluid large teal submit button" onclick="">Potwierdź</div>
-                                    <p>
-                                        <div class="ui fluid large grey button" onclick="overlaywl()">Anuluj</div>
-                                    </p>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <button class="ui teal button" onclick="overlaywl()">Dodaj produkt</button>
-        }
-
         <div class="right menu">
             <div class="ui buttons">
                 @if (isLoggedIn)
                 {
-                    <a href="/Account"><button class="ui teal button"><img src="~/img/default_avatar.png" style="height 32px; width : 32px;" /></button></a>
-                    <button class="ui teal button" onclick="logoff()">Wyloguj się</button>
-                }
-                else
-                {
-                    if (isRegistered)
-                    {
-                        <button class="ui teal button"><a href="Login">Zarejestrowałeś się! Kliknij ten przycisk by się zalogować</a></button>
-                    }
-                    else
-                    {
-                        <button class="ui teal button"><a href="Login">Zaloguj się</a></button>
-                    }
-                    <div class="or"></div>
-                    <button class="ui button"><a href="Rejestracja">Rejestracja</a></button>
+                    <a href="/Account"><button class="ui teal button"><img src="~/img/default_avatar.png" style="height : 32px; width : 32px;" /></button></a>
+                    <button class="ui teal button" onclick="logoff(true)">Wyloguj się</button>
                 }
             </div>
         </div>
     </div>
 
-    <div class="text"></div>
-
-    <div class="ui vertical big menu">
-        <div class="item">
-            <div class="header">Kategorie</div>
-            <div class="menu">
-                @{
-                    foreach (System.Data.DataRow row in Model.Kategorie().Rows)
-                    {
-                        <a class="item" href=@row["nazwa"]>@row["nazwa"].ToString()</a>
-                    }
-                }
-            </div>
-        </div>
-    </div>
-
-    <div class="ui stackable four column very relaxed grid">
-
-        @{
-            foreach (System.Data.DataRow row in Model.Produkty().Rows)
-            {<div class="column">
-                    <a class="item" href="Produkt/@row["id_przedmiotu"]">@row["nazwa"].ToString()</a>
+    <div class="ui grid konto">
+        <div class="column">
+            <h2 class="ui teal image header">
+                <div class="content">
+                    Twoje konto
                 </div>
-            }
-        }
-    </div>
+            </h2>
+            <div class="ui stacked segment">
+                <div class="ui grid">
+                    <div class="row">
+                        <div class="column teal four wide">Login</div>
+                        <div class="column">@userData[0]</div>
+                    </div>
+                    <div class="row">
+                        <div class="column teal four wide">Email</div>
+                        <div class="column">@userData[1]</div>
+                    </div>
+                </div>
+                <div class="ui grid">
+                    <div class="column"></div>
+                    <div class="column"></div>
+                </div>
+                <div class="ui divider"></div>
+                <div class="ui grid">
+                    <div class="column"></div>
+                    <div class="column"></div>
+                </div>
+                <div class="ui grid">
+                    <div class="ui fluid large teal submit button" onclick="ShowPassword()">Zmień hasło</div>
+                </div>
+                <div class="ui grid">
+                    <div class="column"></div>
+                    <div class="column"></div>
+                </div>
+                <div class="ui divider"></div>
+                <div class="ui grid">
+                    <div class="column"></div>
+                    <div class="column"></div>
+                </div>
+                <div class="ui grid">
+                    <div class="ui fluid large teal submit button" onclick="ShowEmail()">Zmień e-mail</div>
+                </div>
+                <div class="ui grid">
+                    <div class="column"></div>
+                    <div class="column"></div>
+                </div>
+                <div class="ui divider"></div>
+                <div class="ui grid">
+                    <div class="column"></div>
+                    <div class="column"></div>
+                </div>
+                <div id="temporaryPasswordBox" style="display: none;">
+                    <div class="ui stacked segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" id="currentPassword" placeholder="Podaj aktualne hasło">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" id="newPassword" placeholder="Podaj nowe hasło">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" id="repeatedPassword" placeholder="Powtórz hasło">
+                            </div>
+                        </div>
+                        <div class="ui fluid large teal submit button" onclick="ChangePassword(getCookie('SessionToken'))">Zmień hasło</div>
+                    </div>
+                </div>
 
+                <div id="temporaryEmailBox" style="display: none;">
+                    <div class="ui stacked segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" id="currentPasswordAtEmail" placeholder="Podaj aktualne hasło">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="address book icon"></i>
+                                <input type="text" id="newEmail" placeholder="Nowy adres e-mail">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="address book icon"></i>
+                                <input type="text" id="repeatedEmail" placeholder="Powtórz nowy adres e-mail">
+                            </div>
+                        </div>
+                        <div class="ui fluid large teal submit button" onclick="ChangeEmail(getCookie('SessionToken'))">Zmień e-mail</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+    <script src="~/js/Konto.js"></script>
     <script src="~/js/main.js"></script>
 </body>
 </html>

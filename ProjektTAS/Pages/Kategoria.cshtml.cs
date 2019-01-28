@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data;
 using System.Linq;
 
 namespace ProjektTAS.Pages
 {
-    public class IndexModel : PageModel
+    public class KategoriaModel : PageModel
     {
         public string idkategoria { get; set; }
         public void OnGet(string id)
@@ -40,5 +40,5 @@ namespace ProjektTAS.Pages
             return mysql.Select($@"select `id` from `projekt_mysql`.`kategoria` where `nazwa` = {idkategoria}");
         }
     }
-    
+
 }

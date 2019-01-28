@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id?}"
 @model ProjektTAS.Pages.IndexModel
 @{
     Layout = null;
@@ -34,11 +34,16 @@
     <script src="~/js/overlay.js"></script>
     <script src="~/js/main.js"></script>
     <script src="~/js/addProduct.js"></script>
+    <script>
+        var idkategoria = @Model.idkategoria
+    </script>
 
 </head>
 <body>
 
     <div class="ui menu">
+
+        <button class="ui green button"><a href="/Index">Strona Główna</a></button>
 
         @if (isLoggedIn)
         {
@@ -50,8 +55,8 @@
                             <form class="ui large form">
                                 <div class="ui stacked segment">
                                     <p>
-                                        <select id= "dropdown">
-                                            <option data-value=""disabled selected>Wybierz kategorię</option>
+                                        <select id= "ui dropdown">
+                                            <option data-value="">Wybierz kategorię</option>
                                             @{
                                                 foreach (System.Data.DataRow row in Model.AllCategories().Rows)
                                                 {
@@ -72,13 +77,10 @@
                                             <input type="text" id="cena" placeholder="Cena produktu">
                                         </div>
                                     </div>
-                                    
+                                    <div class="ui error message"></div>
                                 </div>
-                                <div class="ui fluid large teal submit button" onclick="addProduct()">Potwierdź</div>
-                                <div class="ui error message"></div>
                             </form>
-                            
-                            
+                            <div class="ui fluid large teal submit button" onclick="addProduct(getCookie('SessionToken'))">Potwierdź</div>
                             
                             <p>
                                 <div class="ui fluid large grey button" onclick="overlaywl()">Anuluj</div>
@@ -90,6 +92,7 @@
 
             <button class="ui teal button" onclick="overlaywl()">Dodaj produkt</button>
         }
+        
 
         <div class="right menu">
             <div class="ui buttons">
@@ -124,7 +127,7 @@
                 @{
                     foreach (System.Data.DataRow row in Model.Kategorie().Rows)
                     {
-                        <a class="item" href="Kategoria/@row["nazwa"]">@row["nazwa"].ToString()</a>
+                        <a class="item" href=@row["nazwa"]>@row["nazwa"].ToString()</a>
                     }
                 }
             </div>

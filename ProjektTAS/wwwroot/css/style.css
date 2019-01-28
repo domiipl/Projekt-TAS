@@ -69,10 +69,16 @@ button a:visited {
     top: 30%;
     left: 30%;
     width: 40%;
-    height: 40%;
+    height: 60%;
     border: 5px solid grey;
     padding: 10px;
     margin-left: auto;
     margin-right: auto;
     background: white;
+}
+#produktbox {
+    width: 16.5%;
+    height: 15%;
+    border: 2px solid teal;
+    margin-right: auto;
 }

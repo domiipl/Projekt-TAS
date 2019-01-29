@@ -62,7 +62,7 @@
                 @{
                     foreach (System.Data.DataRow row in Model.Kategorie().Rows)
                     {
-                        <a class="item" href="/@row["nazwa"]">@row["nazwa"].ToString()</a>
+                        <a class="item" href="/Kategoria/@row["id"]">@row["nazwa"].ToString()</a>
                     }
                 }
             </div>

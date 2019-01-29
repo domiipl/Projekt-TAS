@@ -34,10 +34,16 @@ namespace ProjektTAS.Pages
             Classes.MySQLObject mysql = new Classes.MySQLObject();
             return mysql.Select($@"select * from `projekt_mysql`.`przedmiot` where `id_przedmiotu` is not null");
         }
+
+        public DataTable ProduktyKategorii(string idkategoria)
+        {
+            Classes.MySQLObject mysql = new Classes.MySQLObject();
+            return mysql.Select($@"select * from `projekt_mysql`.`przedmiot` where `id_kategorii` = '{idkategoria}'");
+        }
         public DataTable CategoryId(string idkategoria)
         {
             Classes.MySQLObject mysql = new Classes.MySQLObject();
-            return mysql.Select($@"select `id` from `projekt_mysql`.`kategoria` where `nazwa` = {idkategoria}");
+            return mysql.Select($@"select `id` from `projekt_mysql`.`kategoria` where `nazwa` = '{idkategoria}'");
         }
     }
 

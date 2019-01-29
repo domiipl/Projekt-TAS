@@ -24,14 +24,14 @@ function addProduct() {
                     },
                     {
                         type: 'minLength[6]',
-                        prompt: 'Nazwa musi zawieraæ co najmniej 6 znaków'
+                        prompt: 'Nazwa musi zawieraÄ‡ co najmniej 6 znakÃ³w'
                     }]
                 },
                 price: {
                     identifier: 'cena',
                     rules: [{
                         type: 'decimal',
-                        prompt: 'Nie podano ceny produktu lub jest nieprawid³owa.'
+                        prompt: 'Nie podano ceny produktu lub jest nieprawidÅ‚owa.'
                     }]
                 }
             }
